@@ -13,13 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('prisioner_shifteds', function (Blueprint $table) {
+        Schema::create('prisoner_charges', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('prisoner_id');
             $table->foreign('prisoner_id')->references('id')->on('prisoners');
-
-            $table->string('shifted_to_other_department')->nullable();
-            $table->date('shifting_date_gregorian')->nullable();
+            $table->string('crime_charges')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('prisioner_shifteds');
+        Schema::dropIfExists('prisoner_charges');
     }
 };

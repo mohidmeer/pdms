@@ -9,6 +9,9 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('New Prisoner') }}
         </h2>
+
+
+
     </x-slot>
 
     <div class="py-12">
@@ -25,7 +28,7 @@
                             @endforeach
                         @endif
 
-                        <form action="#" class="mb-6" method="post" enctype="multipart/form-data">
+                        <form action="{{route('prisoner.store')}}" class="mb-6" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="bg-white rounded px-8 pt-6 pb-8 ">
 
@@ -40,7 +43,7 @@
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-father_husband">
                                             Father/Husband Name
                                         </label>
-                                        <input name="father_husband" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-father_husband" type="text">
+                                        <input name="father_husband_name" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-father_husband" type="text">
                                     </div>
                                     <div class="md:w-1/2 px-3">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="gender">
@@ -109,10 +112,10 @@
 
 
                                     <div class="md:w-1/2 px-3">
-                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="charges_crime">
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="crime_charges">
                                             charges crime
                                         </label>
-                                        <select name="charges_crime" multiple id="charges_crime" class="select2 appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" required="">
+                                        <select name="crime_charges[]" multiple id="crime_charges" class="select2 appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" required="">
                                             @foreach(\App\Models\Prisoner::crime_charges() as $item)
                                                 <option value="{{$item}}">{{$item}}</option>
                                             @endforeach
@@ -162,16 +165,12 @@
                                     </div>
                                 </div>
 
-
-
-
-
                                 <div class="-mx-3 md:flex mb-3">
                                     <div class="md:w-1/2 px-3">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="private_rights_haq_e_khas">
                                             private rights haq e khas
                                         </label>
-                                        <input name="private_rights_haq_e_khas" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-private_rights_haq_e_khas" type="text">
+                                        <input name="private_rights_haq_e_khas" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-private_rights_haq_e_khas" type="number" step="0.01">
                                     </div>
 
 
@@ -179,7 +178,7 @@
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="expected_release_date_status">
                                             expected release date / status
                                         </label>
-                                        <input name="expected_release_date_status" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-expected_release_date_status" type="text">
+                                        <input name="expected_release_date_status" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-expected_release_date_status" type="date">
                                     </div>
 
 
@@ -187,54 +186,15 @@
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="etd_date">
                                             ETD Date
                                         </label>
-                                        <input name="etd_date" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-etd_date" type="text">
+                                        <input name="etd_date" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-etd_date" type="date">
                                     </div>
 
-
-                                    <div class="md:w-1/2 px-3">
-                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="shifted_to_other_department">
-                                            shifted to other department
-                                        </label>
-                                        <input name="shifted_to_other_department" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-shifted_to_other_department" type="text">
-                                    </div>
 
 
 
                                 </div>
 
-                                <div class="-mx-3 md:flex mb-3">
-
-                                    <div class="md:w-1/2 px-3">
-                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="shifting_date_gregorian">
-                                            shifting date gregorian
-                                        </label>
-                                        <input name="shifting_date_gregorian" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-shifting_date_gregorian" type="text">
-                                    </div>
-
-
-                                    <div class="md:w-1/2 px-3">
-                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="actual_release_date_gregorian">
-                                            actual release date gregorian
-                                        </label>
-                                        <input name="shifting_date_gregorian" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-actual_release_date_gregorian" type="text">
-                                    </div>
-
-
-                                    <div class="md:w-1/2 px-3">
-                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="actual_release_date_hijri">
-                                            actual release date hijri
-                                        </label>
-                                        <input name="actual_release_date_hijri" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-actual_release_date_hijri" type="text">
-                                    </div>
-
-                                    <div class="md:w-1/2 px-3">
-                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-file_attachments">
-                                            Attachments (Scanned PDF, JPG)
-                                        </label>
-                                        <input name="file_attachments_1" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-file_attachments" type="file">
-                                    </div>
-
-                                </div>
+                                @livewire('shifting-date')
 
                                 <div style="float: right" class="mt--1">
                                     <button class="bg-blue-500 hover:bg-blue-400

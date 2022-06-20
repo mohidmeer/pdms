@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePrisionerShiftedRequest;
 use App\Http\Requests\UpdatePrisionerShiftedRequest;
 use App\Models\PrisionerShifted;
+use App\Models\Prisoner;
 
 class PrisionerShiftedController extends Controller
 {
@@ -23,26 +24,29 @@ class PrisionerShiftedController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Prisoner $prisoner)
     {
-        //
+        return view('shifting.create', compact('prisoner'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StorePrisionerShiftedRequest  $request
+     * @param \App\Http\Requests\StorePrisionerShiftedRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(StorePrisionerShiftedRequest $request)
     {
-        //
+        $prisoner = $request->prisoner_id;
+        PrisionerShifted::create($request->all());
+        session()->flash('message', 'Prisioner shifting information successfully updated.');
+        return to_route('prisoner.show', $prisoner);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\PrisionerShifted  $prisionerShifted
+     * @param \App\Models\PrisionerShifted $prisionerShifted
      * @return \Illuminate\Http\Response
      */
     public function show(PrisionerShifted $prisionerShifted)
@@ -53,7 +57,7 @@ class PrisionerShiftedController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\PrisionerShifted  $prisionerShifted
+     * @param \App\Models\PrisionerShifted $prisionerShifted
      * @return \Illuminate\Http\Response
      */
     public function edit(PrisionerShifted $prisionerShifted)
@@ -64,8 +68,8 @@ class PrisionerShiftedController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdatePrisionerShiftedRequest  $request
-     * @param  \App\Models\PrisionerShifted  $prisionerShifted
+     * @param \App\Http\Requests\UpdatePrisionerShiftedRequest $request
+     * @param \App\Models\PrisionerShifted $prisionerShifted
      * @return \Illuminate\Http\Response
      */
     public function update(UpdatePrisionerShiftedRequest $request, PrisionerShifted $prisionerShifted)
@@ -76,7 +80,7 @@ class PrisionerShiftedController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\PrisionerShifted  $prisionerShifted
+     * @param \App\Models\PrisionerShifted $prisionerShifted
      * @return \Illuminate\Http\Response
      */
     public function destroy(PrisionerShifted $prisionerShifted)

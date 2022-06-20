@@ -13,13 +13,14 @@ class Prisoner extends Model
         'name',
         'father_husband_name',
         'iqama_no',
+        'cnic',
+        'gender',
         'passport_no',
         'hijri_detention_date',
         'gregorian_detention_date',
         'detention_authority',
         'detention_city',
-        'status',
-        'charges_crime',
+        'prison_status',
         'case_details',
         'prison',
         'prisoner_number',
@@ -33,6 +34,7 @@ class Prisoner extends Model
         'actual_release_date_hijri',
         'actual_release_date_gregorian',
         'prisoner_status',
+        'attachment',
     ];
 
     public function shifted_to_other_department()
@@ -134,5 +136,16 @@ class Prisoner extends Model
             'Hail',
             'Tabuk',
         ];
+    }
+
+    public function prisoner_charges(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(PrisonerCharges::class);
+    }
+
+
+    public function prisoner_shifting(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(PrisionerShifted::class);
     }
 }

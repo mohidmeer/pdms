@@ -24,5 +24,8 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])-
     })->name('dashboard');
 
     Route::resource('prisoner',\App\Http\Controllers\PrisonerController::class);
+    Route::get('prisoner/{prisoner}/prisionerShifted/create',[\App\Http\Controllers\PrisionerShiftedController::class,'create'])->name('prisionerShifted.create');
+    Route::post('prisionerShifted',[\App\Http\Controllers\PrisionerShiftedController::class,'store'])->name('prisionerShifted.store');
+    Route::resource('prisonerCharges',\App\Http\Controllers\PrisonerChargesController::class);
 
 });
