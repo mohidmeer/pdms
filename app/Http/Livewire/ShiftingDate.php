@@ -11,9 +11,15 @@ class ShiftingDate extends Component
 
     public $hijri_date_conversion = null;
     public $gregorian_date = null;
+    public $edit = false;
+    public $prisoner;
 
     public function render()
     {
+        if (request()->routeIs('prisoner.edit')) {
+            $this->edit = true;
+            $this->gregorian_date($this->prisoner->actual_release_date_gregorian);
+        }
         return view('livewire.shifting-date');
     }
 

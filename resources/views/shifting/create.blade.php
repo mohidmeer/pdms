@@ -37,8 +37,8 @@
                                         <input type="hidden" name="prisoner_id" value="{{$prisoner->id}}">
                                         <select name="shifted_to_other_department" id="shifted_to_other_department" class="select2 appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3">
                                             <option value="" selected="">Please Select</option>
-                                            @foreach(\App\Models\Prisoner::detention_authority() as $item)
-                                                <option value="{{$item}}">{{$item}}</option>
+                                            @foreach(\App\Models\Prisoner::prisons() as $key => $value)
+                                                <option value="{{$key}}">{{$key}} - {{$value}}</option>
                                             @endforeach
                                         </select>
                                     </div>

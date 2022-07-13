@@ -7,8 +7,9 @@
 
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('New Prisoner') }}
+            {{ __('Edit Prisoner') }}
         </h2>
+
 
 
     </x-slot>
@@ -27,8 +28,9 @@
                             @endforeach
                         @endif
 
-                        <form action="{{route('prisoner.store')}}" class="mb-6" method="post" enctype="multipart/form-data">
+                        <form action="{{route('prisoner.update', $prisoner->id)}}" class="mb-6" method="post" enctype="multipart/form-data">
                             @csrf
+                            @method('PUT')
                             <div class="bg-white rounded px-8 pt-6 pb-8 ">
 
                                 <div class="-mx-3 md:flex mb-3">
@@ -36,27 +38,27 @@
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-name_and_father_name">
                                             Name & Father name
                                         </label>
-                                        <input name="name_and_father_name" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-name_and_father_name" type="text">
+                                        <input name="name_and_father_name" value="{{$prisoner->name_and_father_name}}" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-name_and_father_name" type="text">
                                     </div>
                                     <div class="md:w-1/2 px-3">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-arabic_name">
                                             Arabic Name
                                         </label>
-                                        <input name="arabic_name" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-arabic_name" type="text">
+                                        <input name="arabic_name" value="{{$prisoner->arabic_name}}" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-arabic_name" type="text">
                                     </div>
 
                                     <div class="md:w-1/2 px-3">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-iqama_no">
                                             iqama no
                                         </label>
-                                        <input name="iqama_no" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-iqama_no" type="text">
+                                        <input name="iqama_no" value="{{$prisoner->iqama_no}}" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-iqama_no" type="text">
                                     </div>
 
                                     <div class="md:w-1/2 px-3">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-passport_no">
                                             passport no
                                         </label>
-                                        <input name="passport_no" placeholder="AB123456789" class=" appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
+                                        <input name="passport_no" value="{{$prisoner->passport_no}}" placeholder="AB123456789" class=" appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
                                                id="grid-passport_no" type="text">
                                     </div>
 
@@ -71,7 +73,7 @@
                                         <select name="detention_authority" id="detention_authority" class="select2 appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3">
                                             <option value="" selected="">Please Select</option>
                                             @foreach(\App\Models\Prisoner::detention_authority() as $item => $value)
-                                                <option value="{{$item}}">{{$item}} - {{$value}}</option>
+                                                <option value="{{$item}}" @if($prisoner->detention_authority == $item) selected @endif >{{$item}} - {{$value}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -84,7 +86,7 @@
                                         <select name="region" id="region" class="select2 appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3">
                                             <option value="" selected="">Please Select</option>
                                             @foreach(\App\Models\Prisoner::regions() as $item => $value)
-                                                <option value="{{$item}}">{{$item}} - {{$value}}</option>
+                                                <option value="{{$item}}"  @if($prisoner->region == $item) selected @endif  >{{$item}} - {{$value}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -97,7 +99,7 @@
                                         <select name="detention_city" id="detention_city" class="select2 appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3">
                                             <option value="" selected="">Please Select</option>
                                             @foreach(\App\Models\Prisoner::detention_city() as $item => $value)
-                                                <option value="{{$item}}">{{$item}} - {{$value}}</option>
+                                                <option value="{{$item}}"  @if($prisoner->detention_city == $item) selected @endif  >{{$item}} - {{$value}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -110,7 +112,7 @@
                                         <select name="prison" id="prison" class="select2 appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3">
                                             <option value="" selected="">Please Select</option>
                                             @foreach(\App\Models\Prisoner::prisons() as $item => $value)
-                                                <option value="{{$item}}">{{$item}} - {{$value}}</option>
+                                                <option value="{{$item}}"  @if($prisoner->prison == $item) selected @endif  >{{$item}} - {{$value}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -119,7 +121,56 @@
                                 </div>
 
                                 <br>
-                                <livewire:date-converter/>
+
+
+
+                                <div class="-mx-3 md:flex mb-3">
+
+
+
+
+                                    <div class="md:w-1/2 px-3">
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="gender">
+                                            gender
+                                        </label>
+                                        <select name="gender" id="gender" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" required="">
+                                            <option value="" selected="">Please Select</option>
+                                            <option value="Male"   @if($prisoner->gender == "Male") selected @endif  >
+                                                Male
+                                            </option>
+                                            <option value="Female"  @if($prisoner->gender == "Female") selected @endif>
+                                                Female
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="md:w-1/2 px-3">
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-cnic">
+                                            CNIC/NICOB
+                                        </label>
+                                        <input name="cnic" value="{{$prisoner->cnic}}" placeholder="XXXXX-XXXXXXX-X" maxlength="15" class="cnic_mask appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-cnic" type="text">
+                                    </div>
+
+                                    <div class="md:w-1/2 px-3">
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-hijri_detention_date">
+                                            hijri detention date
+                                        </label>
+                                        <input name="hijri_detention_date" class="hdate appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
+                                               id="grid-hijri_detention_date" type="text" min="10" placeholder="dd-mm-yyyy" value="{{$prisoner->hijri_detention_date}}" wire:change="hijri_detention_date($event.target.value)"  >
+
+                                        {{--        value="{{$hijri_date}}" onkeydown="return false"  --}}
+                                    </div>
+
+                                    <div class="md:w-1/2 px-3">
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-gregorian_detention_date">
+                                            gregorian detention date
+                                        </label>
+                                        <input name="gregorian_detention_date"  class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
+                                               id="grid-gregorian_detention_date" type="date" disabled  value="{{$prisoner->gregorian_detention_date}}" onkeydown="return false" >
+                                    </div>
+
+
+                                </div>
 
                                 <div class="-mx-3 md:flex mb-1">
                                     <div class="w-full px-3" style="width: 100%;">
@@ -128,7 +179,15 @@
                                         </label>
                                         <select name="crime_charges[]" multiple id="crime_charges" class="select2 appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" required="">
                                             @foreach(\App\Models\Prisoner::crime_charges() as $item => $value)
-                                                <option value="{{$item}}">{{$item}} - {{$value}}</option>
+                                                <option value="{{$item}}"
+                                                    @if($prisoner->prisoner_charges->isNotEmpty())
+                                                    @foreach($prisoner->prisoner_charges as $ch)
+                                                        @if($ch->crime_charges == $item)
+                                                            selected
+                                                        @endif
+                                                    @endforeach
+                                                    @endif
+                                                >{{$item}} - {{$value}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -141,52 +200,27 @@
                                         <label class="block uppercase resize rounded-md tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-case_details">
                                             case details
                                         </label>
-                                        <textarea name="case_details" rows="5" class="appearance-none form-textarea w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-case_details"></textarea>
+                                        <textarea name="case_details" rows="5" class="appearance-none form-textarea w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-case_details">{{$prisoner->case_details}}</textarea>
                                     </div>
                                 </div>
 
 
-
-                                <div class="-mx-3 md:flex mb-3">
-
-
-
-
-                                    <div class="md:w-1/2 px-3">
-                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="status">
-                                            Prisoner Status
-                                        </label>
-                                        <select name="status" id="status" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3">
-                                            <option value="Detainee" selected>
-                                                Detainee
-                                            </option>
-                                            <option value="Undertrial">
-                                                Undertrial
-                                            </option>
-                                            <option value="Sentenced">
-                                                Sentenced
-                                            </option>
-                                        </select>
-                                    </div>
-
-
-
-
-                                    <div class="md:w-1/2 px-3">
-                                        <div style="float: right" class="mt--1">
-                                            <button class="bg-blue-500 hover:bg-blue-400
-                                    text-white font-bold py-2 px-4 border-b-4
-                                    border-blue-700 hover:border-blue-500 rounded">
-                                                <span>Submit</span>
-                                            </button>
-                                        </div>
-                                    </div>
-
-
-
-
+                                <div class="md:w-1/2 px-3">
+                                    <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="status">
+                                        Prisoner Status
+                                    </label>
+                                    <select name="status" id="status" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3">
+                                        <option value="Detainee"  @if($prisoner->status == "Detainee") selected @endif>
+                                            Detainee
+                                        </option>
+                                        <option value="Undertrial" @if($prisoner->status == "Undertrial") selected @endif>
+                                            Undertrial
+                                        </option>
+                                        <option value="Sentenced" @if($prisoner->status == "Sentenced") selected @endif>
+                                            Sentenced
+                                        </option>
+                                    </select>
                                 </div>
-
 
 
                                 <hr>
@@ -202,9 +236,10 @@
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="sentence_in_years">
                                             Years
                                         </label>
-                                        <select name="sentence_in_years" id="sentence_in_years" class="  appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3">
+                                        <select name="sentence_in_years" id="sentence_in_years" class="  appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" required="">
+                                            <option value="" selected="">Please Select</option>
                                             @for($i = 0; $i<= 50; $i++)
-                                                <option value="{{$i}}" @if($i == 0) selected @endif>
+                                                <option value="{{$i}}" @if($prisoner->sentence_in_years == $i) selected @endif >
                                                     @if($i == 1 || $i == 0)
                                                         {{$i}} Year
                                                     @else
@@ -220,9 +255,10 @@
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="sentence_in_months">
                                             Months
                                         </label>
-                                        <select name="sentence_in_months" id="sentence_in_months" class=" appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" >
+                                        <select name="sentence_in_months" id="sentence_in_months" class=" appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" required="">
+                                            <option value="" selected="">Please Select</option>
                                             @for($i = 0; $i<= 11; $i++)
-                                                <option value="{{$i}}" @if($i == 0) selected @endif>
+                                                <option value="{{$i}}" @if($prisoner->sentence_in_months == $i) selected @endif >
                                                     @if($i == 1 || $i == 0)
                                                         {{$i}} Month
                                                     @else
@@ -239,13 +275,13 @@
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-financial_claim">
                                             Financial claim
                                         </label>
-                                        <input name="financial_claim" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-financial_claim" type="number">
+                                        <input name="financial_claim" value="{{$prisoner->financial_claim}}" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-financial_claim" type="text">
                                     </div>
                                     <div class="md:w-1/2 px-3">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-penalty_fine">
                                             Penalty / Fine
                                         </label>
-                                        <input name="penalty_fine" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-penalty_fine" type="number">
+                                        <input name="penalty_fine" value="{{$prisoner->penalty_fine}}" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-penalty_fine" type="text">
                                     </div>
 
                                     ``
@@ -267,7 +303,7 @@
                                         <select name="case_court_name" id="case_court_name" class=" appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3">
                                             <option value="" selected="">Please Select</option>
                                             @foreach(\App\Models\Prisoner::courts() as $key => $value)
-                                                <option value="{{$key}}">{{$key}}-{{$value}}</option>
+                                                <option value="{{$key}}" @if($prisoner->case_court_name == $key) selected @endif >{{$key}}-{{$value}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -277,8 +313,8 @@
                                         </label>
                                         <select name="case_city" id="case_city" class="select2 appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3">
                                             <option value="" selected="">Please Select</option>
-                                            @foreach(\App\Models\Prisoner::detention_city() as $key => $value)
-                                                <option value="{{$key}}">{{$key}} - {{$value}}</option>
+                                            @foreach(\App\Models\Prisoner::detention_city() as $item => $value)
+                                                <option value="{{$item}}" @if($prisoner->case_city == $item) selected @endif >{{$item}} - {{$value}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -286,13 +322,13 @@
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="case_number">
                                             Case number
                                         </label>
-                                        <input name="case_number" id="case_number" type="text" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" >
+                                        <input name="case_number" value="{{$prisoner->case_number}}" id="case_number" type="text" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" >
                                     </div>
                                     <div class="md:w-1/2 px-3">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="case_prisoner_number">
                                             Prisoner number
                                         </label>
-                                        <input name="case_prisoner_number" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="case_prisoner_number" type="text" >
+                                        <input name="case_prisoner_number"  value="{{$prisoner->case_prisoner_number}}"  class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="case_prisoner_number" type="text" >
                                     </div>
                                 </div>
 
@@ -302,25 +338,25 @@
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="case_claim_number">
                                             Claim number
                                         </label>
-                                        <input name="case_claim_number" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="case_claim_number" type="text">
+                                        <input name="case_claim_number"   value="{{$prisoner->case_claim_number}}"  class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="case_claim_number" type="text">
                                     </div>
                                     <div class="md:w-1/2 px-3">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="case_sadad_number">
                                             Sadad number
                                         </label>
-                                        <input name="case_sadad_number" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="case_sadad_number" type="text">
+                                        <input name="case_sadad_number"   value="{{$prisoner->case_sadad_number}}"  class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="case_sadad_number" type="text">
                                     </div>
                                     <div class="md:w-1/2 px-3">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="case_claimer_name">
                                             Claimer name
                                         </label>
-                                        <input name="case_claimer_name" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="case_claimer_name" type="text">
+                                        <input name="case_claimer_name" value="{{$prisoner->case_claimer_name}}"  class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="case_claimer_name" type="text">
                                     </div>
                                     <div class="md:w-1/2 px-3">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="case_claimer_contact_number">
                                             Claimer contact number
                                         </label>
-                                        <input name="case_claimer_contact_number" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="case_claimer_contact_number" type="text">
+                                        <input name="case_claimer_contact_number" value="{{$prisoner->case_claimer_contact_number}}"  class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="case_claimer_contact_number" type="text">
                                     </div>
                                 </div>
 
@@ -329,19 +365,19 @@
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="case_consular_access_date">
                                             Consular access date
                                         </label>
-                                        <input name="case_consular_access_date" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="case_consular_access_date" type="date">
+                                        <input name="case_consular_access_date" value="{{$prisoner->case_consular_access_date}}"  class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="case_consular_access_date" type="date">
                                     </div>
                                     <div class="md:w-1/2 px-3">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="etd_issuance_date">
                                             ETD issuance date
                                         </label>
-                                        <input name="etd_issuance_date" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="etd_issuance_date" type="date">
+                                        <input name="etd_issuance_date" value="{{$prisoner->etd_issuance_date}}"  class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="etd_issuance_date" type="date">
                                     </div>
                                     <div class="md:w-1/2 px-3">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="etd_number">
                                             ETD number
                                         </label>
-                                        <input name="etd_number" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="etd_number" type="date">
+                                        <input name="etd_number" value="{{$prisoner->etd_number}}" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="etd_number" type="date">
                                     </div>
                                     <div class="md:w-1/2 px-3">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="case_closed">
@@ -349,15 +385,15 @@
                                         </label>
                                         <select name="case_closed" id="case_closed" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3">
                                             <option value="">Please Select</option>
-                                            <option value="Yes">Yes</option>
-                                            <option value="No" selected>No</option>
+                                            <option value="Yes" @if($prisoner->case_closed == "Yes") selected @endif >Yes</option>
+                                            <option value="No"  @if($prisoner->case_closed == "No") selected @endif >No</option>
                                         </select>
                                     </div>
                                     <div class="md:w-1/2 px-3">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="case_closing_date_hijri">
                                             Closing date (Hijri Date)
                                         </label>
-                                        <input name="case_closing_date_hijri" placeholder="dd-mm-YYYY" class="hdate appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="case_closing_date_hijri" type="text" >
+                                        <input name="case_closing_date_hijri" value="{{$prisoner->case_closing_date_hijri}}" placeholder="dd-mm-YYYY" class="hdate appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="case_closing_date_hijri" type="text" >
                                     </div>
                                 </div>
 
@@ -373,16 +409,16 @@
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="date_of_birth">
                                             Date of birth
                                         </label>
-                                        <input name="date_of_birth" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="date_of_birth" type="date">
+                                        <input name="date_of_birth"  value="{{$prisoner->date_of_birth}}"  class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="date_of_birth" type="date">
                                     </div>
                                     <div class="md:w-1/2 px-3">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="province">
                                             Province
                                         </label>
-                                        <select name="provinces" id="province" class=" select2 appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" >
+                                        <select name="provinces" id="province" class=" select2 appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" required="">
                                             <option value="" selected="">Please Select</option>
                                             @foreach(\App\Models\Prisoner::provinces() as $item)
-                                                <option value="{{$item}}">{{$item}}</option>
+                                                <option value="{{$item}}" @if($prisoner->provinces == $item) selected @endif >{{$item}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -394,8 +430,8 @@
                                         </label>
                                         <select name="district" id="district" class="select2 appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3">
                                             <option value="" selected="">Please Select</option>
-                                            @foreach(\App\Models\Prisoner::districts() as $item)
-                                                <option value="{{$item}}">{{$item}}</option>
+                                            @foreach(\App\Models\Prisoner::regions() as $item => $value)
+                                                <option value="{{$item}}"  @if($prisoner->district == $item) selected @endif  >{{$item}} - {{$value}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -405,7 +441,7 @@
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="tehseel">
                                             Tehseel
                                         </label>
-                                        <input name="tehseel" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="tehseel" type="text">
+                                        <input name="tehseel"  value="{{$prisoner->tehseel}}"  class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="tehseel" type="text">
                                     </div>
 
 
@@ -417,14 +453,14 @@
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="muhallah_town">
                                             Muhallah / Town
                                         </label>
-                                        <input name="muhallah_town" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="muhallah_town" type="text">
+                                        <input name="muhallah_town"  value="{{$prisoner->muhallah_town}}"  class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="muhallah_town" type="text">
                                     </div>
 
                                     <div class="md:w-1/2 px-3">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="contact_no_in_pakistan">
                                             Contact no in Pakistan
                                         </label>
-                                        <input name="contact_no_in_pakistan" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="contact_no_in_pakistan" type="text">
+                                        <input name="contact_no_in_pakistan"  value="{{$prisoner->contact_no_in_pakistan}}"  class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="contact_no_in_pakistan" type="text">
                                     </div>
 
                                 </div>
@@ -436,6 +472,8 @@
                                     <div class="md:w-1/2 px-3">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="file_attachments_1">
                                             Attachments (Scanned PDF, JPG)
+
+
                                         </label>
                                         @if(!empty($prisoner->attachment))
                                             <a href="{{Storage::url($prisoner->attachment)}}" target="_blank" class="text-blue-700 hover:underline">View Existing Attachment</a>
@@ -445,12 +483,15 @@
 
                                     </div>
                                 </div>
+
                                 <div style="float: right" class="mt--1">
-                                    <button class="bg-blue-500 hover:bg-blue-400
-                                    text-white font-bold py-2 px-4 border-b-4
-                                    border-blue-700 hover:border-blue-500 rounded">
-                                        <span>Submit</span>
+
+                                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-red-800 border border-transparent rounded-md font-semibold
+                                    text-xs text-white uppercase tracking-widest hover:bg-red-700 active:bg-red-900 focus:outline-none focus:border-red-900
+                                    focus:ring focus:ring-red-300 disabled:opacity-25 transition">
+                                        Update
                                     </button>
+
                                 </div>
                             </div>
                         </form>
@@ -471,12 +512,12 @@
                 $('.select2').select2();
                 $('.cnic_mask').mask('00000-0000000-0');
                 $('.number_mask').mask('0000-0000000');
-                $('.hdate').mask('00-00-0000');
+                $('.phone_mask').mask('00000-000000');
             });
 
 
-            $(function () {
-                $('#datepicker').keypress(function (event) {
+            $(function() {
+                $('#datepicker').keypress(function(event) {
                     event.preventDefault();
                     return false;
                 });

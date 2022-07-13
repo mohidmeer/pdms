@@ -26,7 +26,12 @@
         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-file_attachments">
             Attachments (Scanned PDF, JPG)
         </label>
+        @if(!empty($prisoner->attachment))
+            <a href="{{Storage::url($prisoner->attachment)}}" target="_blank" class="text-blue-700 hover:underline" >View Existing Attachment</a>
+        @endif
         <input name="file_attachments_1" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-file_attachments" type="file">
+
+
     </div>
 
 </div>

@@ -11,12 +11,15 @@
         </h2>
 
         <div class="flex justify-center items-center float-right">
-            <a href="{{route('prisionerShifted.create', $prisoner->id)}}" class="flex items-center px-4 py-2 text-gray-600 bg-white border rounded-lg focus:outline-none hover:bg-gray-100 transition-colors duration-200 transform dark:text-gray-200 dark:border-gray-200  dark:hover:bg-gray-700 ml-2" title="Members List">
+            <a href="{{route('prisionerShifted.create', $prisoner->id)}}"
+               class="flex items-center px-4 py-2 text-gray-600 bg-white border rounded-lg focus:outline-none hover:bg-gray-100 transition-colors duration-200 transform dark:text-gray-200 dark:border-gray-200  dark:hover:bg-gray-700 ml-2"
+               title="Members List">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
                 </svg>
                 <span class="hidden md:inline-block ml-2">Add Prisoner Shifting</span>
             </a>
+
         </div>
 
     </x-slot>
@@ -32,7 +35,7 @@
                             <div class="image overflow-hidden">
 
 
-                                @if(!empty($employee->profile_path))
+                                @if(!empty($prisoner->attachment))
                                     <img class="h-auto w-full mx-auto"
                                          src="{{url(Storage::url($prisoner->attachment))}}"/>
 
@@ -70,14 +73,42 @@
 
 
                                 <li class="flex items-center py-3">
-                                    <span>Prisoner Number</span>
-                                    <span class="ml-auto">{{$prisoner->prisoner_number}}</span>
+                                    <span>Date of Birth</span>
+                                    <span class="ml-auto">{{$prisoner->date_of_birth}}</span>
                                 </li>
 
 
                                 <li class="flex items-center py-3">
-                                    <span>Pakistan City</span>
-                                    <span class="ml-auto">{{$prisoner->pakistan_city}}</span>
+                                    <span>Province</span>
+                                    <span class="ml-auto">{{$prisoner->provinces}}</span>
+                                </li>
+
+                                <li class="flex items-center py-3">
+                                    <span>District</span>
+                                    <span class="ml-auto">{{$prisoner->district}}</span>
+                                </li>
+
+                                <li class="flex items-center py-3">
+                                    <span>Tehseel</span>
+                                    <span class="ml-auto">{{$prisoner->tehseel}}</span>
+                                </li>
+
+
+                                <li class="flex items-center py-3">
+                                    <span>Muhalah / Town</span>
+                                    <span class="ml-auto">{{$prisoner->muhallah_town}}</span>
+                                </li>
+
+
+                                <li class="flex items-center py-3">
+                                    <span>Contact Pakistan</span>
+                                    <span class="ml-auto">{{$prisoner->contact_no_in_pakistan}}</span>
+                                </li>
+
+
+                                <li class="flex items-center py-3">
+                                    <span>Prisoner Number</span>
+                                    <span class="ml-auto">{{$prisoner->prisoner_number}}</span>
                                 </li>
                             </ul>
                         </div>
@@ -104,40 +135,57 @@
                             </div>
                             <div class="text-gray-700">
                                 <div class="grid md:grid-cols-2 text-sm">
+
                                     <div class="grid grid-cols-2">
-                                        <div class="px-4 py-2 font-semibold">Name</div>
-                                        <div class="px-4 py-2">{{$prisoner->name}}</div>
+                                        <div class="px-4 py-2 font-semibold">Iqama Number</div>
+                                        <div class="px-4 py-2">{{$prisoner->iqama_no}}</div>
                                     </div>
                                     <div class="grid grid-cols-2">
-                                        <div class="px-4 py-2 font-semibold">Father/Husband Name</div>
-                                        <div class="px-4 py-2">{{$prisoner->father_husband_name}}</div>
+                                        <div class="px-4 py-2 font-semibold">Passport number</div>
+                                        <div class="px-4 py-2">{{$prisoner->passport_no}}</div>
                                     </div>
 
 
                                     <div class="grid grid-cols-2">
-                                        <div class="px-4 py-2 font-semibold">Hijri Detention Date</div>
-                                        <div class="px-4 py-2">{{$prisoner->hijri_detention_date}}</div>
+                                        <div class="px-4 py-2 font-semibold">Name & Father Name</div>
+                                        <div class="px-4 py-2">{{$prisoner->name_and_father_name}}</div>
                                     </div>
                                     <div class="grid grid-cols-2">
-                                        <div class="px-4 py-2 font-semibold">Gregorian Detention Date</div>
-                                        <div class="px-4 py-2">{{\Carbon\Carbon::parse($prisoner->gregorian_detention_date)->format('d-m-Y')}}</div>
+                                        <div class="px-4 py-2 font-semibold">Arabic Name</div>
+                                        <div class="px-4 py-2">{{$prisoner->arabic_name}}</div>
                                     </div>
-
 
                                     <div class="grid grid-cols-2">
                                         <div class="px-4 py-2 font-semibold">Detention Authority</div>
                                         <div class="px-4 py-2">{{$prisoner->detention_authority}}</div>
                                     </div>
+
+                                    <div class="grid grid-cols-2">
+                                        <div class="px-4 py-2 font-semibold">Region</div>
+                                        <div class="px-4 py-2">{{$prisoner->region}}</div>
+                                    </div>
+
+
                                     <div class="grid grid-cols-2">
                                         <div class="px-4 py-2 font-semibold">Detention City</div>
                                         <div class="px-4 py-2">{{$prisoner->detention_city}}</div>
                                     </div>
 
+                                    <div class="grid grid-cols-2">
+                                        <div class="px-4 py-2 font-semibold">Prison</div>
+                                        <div class="px-4 py-2">{{$prisoner->prison}}</div>
+                                    </div>
 
                                     <div class="grid grid-cols-2">
-                                        <div class="px-4 py-2 font-semibold">Prison Status</div>
-                                        <div class="px-4 py-2">{{$prisoner->prison_status}}</div>
+                                        <div class="px-4 py-2 font-semibold">Date of Detention Hijri</div>
+                                        <div class="px-4 py-2">{{$prisoner->hijri_detention_date}}</div>
                                     </div>
+
+                                    <div class="grid grid-cols-2">
+                                        <div class="px-4 py-2 font-semibold">Date of Detention GG</div>
+                                        <div class="px-4 py-2">{{$prisoner->gregorian_detention_date}}</div>
+                                    </div>
+
                                     <div class="grid grid-cols-2">
                                         <div class="px-4 py-2 font-semibold">Charges Crime</div>
                                         <div class="px-4 py-2">
@@ -151,53 +199,118 @@
                                     </div>
 
                                     <div class="grid grid-cols-2">
-                                        <div class="px-4 py-2 font-semibold">Case Details</div>
-                                        <div class="px-4 py-2">{{$prisoner->case_details}}</div>
-                                    </div>
-                                    <div class="grid grid-cols-2">
-                                        <div class="px-4 py-2 font-semibold">Prison</div>
-                                        <div class="px-4 py-2">{{$prisoner->prison}}</div>
+                                        <div class="px-4 py-2 font-semibold">Sentence</div>
+                                        <div class="px-4 py-2">{{$prisoner->sentence_in_years}} Years and {{$prisoner->sentence_in_months}} Months</div>
                                     </div>
 
 
                                     <div class="grid grid-cols-2">
                                         <div class="px-4 py-2 font-semibold">Detention Period</div>
-                                        <div class="px-4 py-2">{{$prisoner->detention_period}}</div>
-                                    </div>
-                                    <div class="grid grid-cols-2">
-                                        <div class="px-4 py-2 font-semibold">Private Rights Haq e Khas</div>
-                                        <div class="px-4 py-2">{{$prisoner->private_rights_haq_e_khas}}</div>
-                                    </div>
-
-
-                                    <div class="grid grid-cols-2">
-                                        <div class="px-4 py-2 font-semibold">Expected Release Date Status</div>
-                                        <div class="px-4 py-2">{{$prisoner->expected_release_date_status}}</div>
-                                    </div>
-                                    <div class="grid grid-cols-2">
-                                        <div class="px-4 py-2 font-semibold">ETD Date</div>
-                                        <div class="px-4 py-2">{{$prisoner->etd_date}}</div>
-                                    </div>
-
-
-                                    <div class="grid grid-cols-2">
-                                        <div class="px-4 py-2 font-semibold">Actual Release Date Hijri</div>
-                                        <div class="px-4 py-2">{{$prisoner->actual_release_date_hijri}}</div>
-                                    </div>
-
-
-                                    <div class="grid grid-cols-2">
-                                        <div class="px-4 py-2 font-semibold">Actual Release Date Gregorian</div>
-                                        <div class="px-4 py-2">{{$prisoner->actual_release_date_gregorian}}</div>
-                                    </div>
-                                    <div class="grid grid-cols-2">
-                                        <div class="px-4 py-2 font-semibold">Attachment</div>
                                         <div class="px-4 py-2">
-                                            <a href="{{\Illuminate\Support\Facades\Storage::url($prisoner->attachment)}}" target="_blank">Attachment Document</a>
+
+                                            @if(!empty($prisoner->gregorian_detention_date))
+                                                {{\Carbon\Carbon::parse($prisoner->gregorian_detention_date)->diff(\Carbon\Carbon::now())->format('%y years, %m months and %d days')}}
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-2">
+                                        <div class="px-4 py-2 font-semibold">Expected Release Date</div>
+                                        <div class="px-4 py-2">
+                                            {{$prisoner->expected_release_date}}
                                         </div>
                                     </div>
 
+
+                                    <div class="grid grid-cols-2">
+                                        <div class="px-4 py-2 font-semibold">Financial claim</div>
+                                        <div class="px-4 py-2">{{$prisoner->financial_claim}}</div>
+                                    </div>
+                                    <div class="grid grid-cols-2">
+                                        <div class="px-4 py-2 font-semibold">Penalty / Fine</div>
+                                        <div class="px-4 py-2">{{$prisoner->penalty_fine}}</div>
+                                    </div>
                                 </div>
+
+                                <hr>
+                                <h1 class="text4xl text-center m-4 font-bold">CASE DETAILS</h1>
+                                <hr>
+
+
+                                <div class="grid md:grid-cols-2 text-sm">
+
+                                    <div class="grid grid-cols-2">
+                                        <div class="px-4 py-2 font-semibold">Court</div>
+                                        <div class="px-4 py-2">{{$prisoner->case_court_name}}</div>
+                                    </div>
+                                    <div class="grid grid-cols-2">
+                                        <div class="px-4 py-2 font-semibold">City</div>
+                                        <div class="px-4 py-2">{{$prisoner->case_city}}</div>
+                                    </div>
+
+
+                                    <div class="grid grid-cols-2">
+                                        <div class="px-4 py-2 font-semibold">Case number</div>
+                                        <div class="px-4 py-2">{{$prisoner->case_number}}</div>
+                                    </div>
+                                    <div class="grid grid-cols-2">
+                                        <div class="px-4 py-2 font-semibold">Prisoner number</div>
+                                        <div class="px-4 py-2">{{$prisoner->case_prisoner_number}}</div>
+                                    </div>
+
+                                    <div class="grid grid-cols-2">
+                                        <div class="px-4 py-2 font-semibold">Claim number</div>
+                                        <div class="px-4 py-2">{{$prisoner->case_claim_number}}</div>
+                                    </div>
+                                    <div class="grid grid-cols-2">
+                                        <div class="px-4 py-2 font-semibold">Sadad number</div>
+                                        <div class="px-4 py-2">{{$prisoner->case_sadad_number}}</div>
+                                    </div>
+
+
+                                    <div class="grid grid-cols-2">
+                                        <div class="px-4 py-2 font-semibold">Claimer name</div>
+                                        <div class="px-4 py-2">{{$prisoner->case_claimer_name}}</div>
+                                    </div>
+                                    <div class="grid grid-cols-2">
+                                        <div class="px-4 py-2 font-semibold">Claimer contact number</div>
+                                        <div class="px-4 py-2">{{$prisoner->case_claimer_contact_number}}</div>
+                                    </div>
+
+
+                                    <div class="grid grid-cols-2">
+                                        <div class="px-4 py-2 font-semibold">Consular access date</div>
+                                        <div class="px-4 py-2">{{$prisoner->case_consular_access_date}}</div>
+                                    </div>
+                                    <div class="grid grid-cols-2">
+                                        <div class="px-4 py-2 font-semibold">ETD issuance date</div>
+                                        <div class="px-4 py-2">{{$prisoner->etd_issuance_date}}</div>
+                                    </div>
+
+
+                                    <div class="grid grid-cols-2">
+                                        <div class="px-4 py-2 font-semibold">ETD number</div>
+                                        <div class="px-4 py-2">{{$prisoner->etd_number}}</div>
+                                    </div>
+                                    <div class="grid grid-cols-2">
+                                        <div class="px-4 py-2 font-semibold">Case closed</div>
+                                        <div class="px-4 py-2">{{$prisoner->case_closed}}</div>
+                                    </div>
+
+
+                                    <div class="grid grid-cols-2">
+                                        <div class="px-4 py-2 font-semibold">Closing Date Hijri</div>
+                                        <div class="px-4 py-2">{{$prisoner->case_closing_date_hijri}}</div>
+                                    </div>
+
+
+                                    <div class="grid grid-cols-2">
+                                        <div class="px-4 py-2 font-semibold">Closing Date GG</div>
+                                        <div class="px-4 py-2">{{$prisoner->case_closing_date_gg}}</div>
+                                    </div>
+
+
+                                </div>
+
                             </div>
                         </div>
                         <!-- End of about section -->
@@ -261,6 +374,18 @@
                     return false;
                 });
             });
+
+
+            const targetDiv = document.getElementById("filters");
+            const btn = document.getElementById("toggle");
+            btn.onclick = function () {
+                if (targetDiv.style.display !== "none") {
+                    targetDiv.style.display = "none";
+                } else {
+                    targetDiv.style.display = "block";
+                }
+            };
+
         </script>
     @endsection
 
