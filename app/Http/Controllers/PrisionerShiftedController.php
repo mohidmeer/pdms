@@ -6,6 +6,8 @@ use App\Http\Requests\StorePrisionerShiftedRequest;
 use App\Http\Requests\UpdatePrisionerShiftedRequest;
 use App\Models\PrisionerShifted;
 use App\Models\Prisoner;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Http;
 
 class PrisionerShiftedController extends Controller
 {
@@ -37,9 +39,30 @@ class PrisionerShiftedController extends Controller
      */
     public function store(StorePrisionerShiftedRequest $request)
     {
+
+
         $prisoner = $request->prisoner_id;
-        PrisionerShifted::create($request->all());
-        session()->flash('message', 'Prisioner shifting information successfully updated.');
+
+        if ($request->input('shifting_date_hijri')) {
+            if (strlen($request->shifting_date_hijri) >= 10) {
+                $url = "http://api.aladhan.com/v1/hToG?date=" . Carbon::parse($request->shifting_date_hijri)->format('d-m-Y');
+                $response = Http::get($url);
+                $json_format = $response->json();
+                $gg_date = $json_format['data']['gregorian']['date'];
+                $date_in_gg = Carbon::createFromFormat('d-m-Y', $gg_date);
+                $request->merge(['shifting_date_gregorian' => $date_in_gg->format('Y-m-d')]);
+            }
+        }
+        PrisionerShifted::create([
+            'prisoner_id' => $request->prisoner_id,
+            'detention_authority' => $request->detention_authority,
+            'detention_city' => $request->detention_city,
+            'shifted_to_other_department' => $request->shifted_to_other_department,
+            'shifting_date_hijri' => $request->shifting_date_hijri,
+            'other_details' => $request->other_details,
+            'shifting_date_gregorian' => $request->shifting_date_gregorian,
+        ]);
+        session()->flash('message', 'Prisoner shifting information successfully updated.');
         return to_route('prisoner.show', $prisoner);
     }
 

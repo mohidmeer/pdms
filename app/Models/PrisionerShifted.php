@@ -13,5 +13,9 @@ class PrisionerShifted extends Model
         'prisoner_id',
         'shifted_to_other_department',
         'shifting_date_gregorian',
+        'detention_authority',
+        'detention_city',
+        'shifting_date_hijri',
+        'other_details',
     ];
 }

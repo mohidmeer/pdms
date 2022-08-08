@@ -12,33 +12,19 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="grid grid-cols-12 gap-6 ">
                 <a href="#" class="transform  hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 sm:col-span-6 xl:col-span-3 intro-y bg-white">
-                    <div class="p-5">
-                        <div class="grid grid-cols-3 gap-1">
-                            <div class="col-span-2">
-                                <div class="text-3xl font-bold leading-8">10</div>
-                                <div class="mt-1 text-base font-bold text-gray-600">Prisoners</div>
-                            </div>
-                            <div class="col-span-1 flex items-center justify-end">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                <a href="#" class="transform  hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 sm:col-span-6 xl:col-span-3 intro-y bg-white">
-                    <div class="p-5">
-                        <div class="grid grid-cols-3 gap-1">
-                            <div class="col-span-2">
-                                <div class="text-3xl font-bold leading-8">10</div>
 
-                                <div class="mt-1 text-base  font-bold text-gray-600">Jail Visit This Month</div>
+                    <div class="p-5">
+                        <div class="grid grid-cols-3 gap-1">
+                            <div class="col-span-2">
+                                <div class="text-3xl font-bold leading-8">{{\App\Models\Prisoner::where('status','Sentenced')->count()}}</div>
+
+                                <div class="mt-1 text-base  font-bold text-gray-600">
+                                    Prisoners arrested in last 3 months
+                                </div>
                             </div>
                             <div class="col-span-1 flex items-center justify-end">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7a4 4 0 11-8 0 4 4 0 018 0zM9 14a6 6 0 00-6 6v1h12v-1a6 6 0 00-6-6zM21 12h-6"/>
-                                </svg>
+
+                                <img src="https://cdn-icons-png.flaticon.com/128/3122/3122321.png" alt="legal case" class="h-12 w-12">
                             </div>
                         </div>
                     </div>
@@ -47,8 +33,10 @@
                     <div class="p-5">
                         <div class="grid grid-cols-3 gap-1">
                             <div class="col-span-2">
-                                <div class="text-3xl font-bold leading-8">10</div>
-                                <div class="mt-1 text-base  font-bold text-gray-600">Legal cases</div>
+                                <div class="text-3xl font-bold leading-8">
+                                    {{\App\Models\Prisoner::where('status','Undertrial')->count()}}
+                                </div>
+                                <div class="mt-1 text-base  font-bold text-gray-600">Released in last 3 months</div>
                             </div>
                             <div class="col-span-1 flex items-center justify-end">
                                 <img src="https://cdn-icons-png.flaticon.com/512/186/186359.png" alt="legal case" class="h-12 w-12">
@@ -60,11 +48,30 @@
                     <div class="p-5">
                         <div class="grid grid-cols-3 gap-1">
                             <div class="col-span-2">
-                                <div class="text-3xl font-bold leading-8">10</div>
-                                <div class="mt-1 text-base  font-bold text-gray-600">Detainees</div>
+                                <div class="text-3xl font-bold leading-8">
+                                    {{\App\Models\Prisoner::where('status','Detainee')->count()}}
+                                </div>
+                                <div class="mt-1 text-base  font-bold text-gray-600">Legal assistance provided in last 3 months</div>
                             </div>
                             <div class="col-span-1 flex items-center justify-end">
-                                <img src="https://cdn-icons-png.flaticon.com/512/914/914612.png" alt="employees on leave" class="h-12 w-12">
+                                <img src="https://cdn-icons-png.flaticon.com/128/6289/6289143.png" alt="employees on leave" class="h-12 w-12">
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <a href="#" class="transform  hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 sm:col-span-6 xl:col-span-3 intro-y bg-white">
+
+                    <div class="p-5">
+                        <div class="grid grid-cols-3 gap-1">
+                            <div class="col-span-2">
+                                <div class="text-3xl font-bold leading-8">
+                                    {{\App\Models\Prisoner::where('status','Death Sentenced')->count()}}
+                                </div>
+                                <div class="mt-1 text-base font-bold text-gray-600">To be released in next 3 months</div>
+                            </div>
+                            <div class="col-span-1 flex items-center justify-end">
+
+                                <img src="https://static.thenounproject.com/png/3316452-200.png" alt="legal case" class="h-12 w-12">
                             </div>
                         </div>
                     </div>
@@ -98,7 +105,7 @@
     @section('custom_footer')
         <script>
             var gender_options = {
-                series: [1,1,3,],
+                series: [@foreach($total_prisoners_crime_wise as $key => $value) {{$value}}, @endforeach],
                 dataLabels: {
                     formatter: function (val, opts) {
                         return opts.w.config.series[opts.seriesIndex]
@@ -142,12 +149,12 @@
                         autoSelected: 'zoom'
                     },
                 },
-                labels: ['Female','Male','Transgender',],
+                labels: [@foreach($total_prisoners_crime_wise as $key => $value) '{{$key}}', @endforeach],
                 legend: {
                     position: 'bottom',
                 },
                 title: {
-                    text: 'Gender Segregation',
+                    text: 'Total Prisoners: Crime Wise',
                     align: 'left',
                     margin: 0,
                     offsetX: 0,
@@ -176,7 +183,7 @@
             gender_chart.render();
 
             var age_options = {
-                series: [1,1,1,2,],
+                series: [@foreach($total_prisoners_region_wise as $key => $value) {{$value}}, @endforeach],
                 dataLabels: {
                     formatter: function (val, opts) {
                         return opts.w.config.series[opts.seriesIndex]
@@ -229,12 +236,12 @@
                     }
                 },
 
-                labels: ['0-10','20-30','30-40','50-60',],
+                labels: [@foreach($total_prisoners_region_wise as $key => $value) '{{$key}}', @endforeach],
                 legend: {
                     position: 'bottom',
                 },
                 title: {
-                    text: 'Age Classification',
+                    text: 'Total Prisoners: Region Wise',
                     align: 'left',
                     margin: 0,
                     offsetX: 0,
@@ -263,7 +270,7 @@
             age_chart.render();
 
             var service_length_options = {
-                series: [0,1,1,1,2,],
+                series: [@foreach($total_prisoners as $key => $value) {{$value}}, @endforeach],
                 dataLabels: {
                     formatter: function (val, opts) {
                         return opts.w.config.series[opts.seriesIndex]
@@ -325,13 +332,13 @@
                 markers: {
                     colors: ['#F44336', '#E91E63', '#9C27B0']
                 },
-                labels: ['&lt; 1 year','1-5 Years','5-10 Years','10-20 Years','20+ Years',],
+                labels: [@foreach($total_prisoners as $key => $value) '{{$key}}', @endforeach],
                 legend: {
                     position: 'right',
 
                 },
                 title: {
-                    text: 'Service Length Division',
+                    text: 'Total Prisoners',
                     align: 'left',
                     margin: 0,
                     offsetX: 0,
@@ -434,7 +441,7 @@
 
                 },
                 title: {
-                    text: 'Upcoming Retirements',
+                    text: 'Delay after completion of sentence',
                     align: 'left',
                     margin: 0,
                     offsetX: 0,
@@ -522,7 +529,7 @@
                     position: 'bottom',
                 },
                 title: {
-                    text: 'Scale Classification',
+                    text: 'Security cases prisoners',
                     align: 'left',
                     margin: 0,
                     offsetX: 0,
@@ -611,7 +618,7 @@
                     position: 'bottom',
                 },
                 title: {
-                    text: 'Salary Division',
+                    text: 'Private Rights Prisoners',
                     align: 'left',
                     margin: 0,
                     offsetX: 0,

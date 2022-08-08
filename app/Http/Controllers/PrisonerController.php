@@ -7,12 +7,60 @@ use App\Http\Requests\UpdatePrisonerRequest;
 use App\Models\Prisoner;
 use App\Models\PrisonerCharges;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class PrisonerController extends Controller
 {
+
+    public function dashboard()
+    {
+
+
+        $total_prisoners = [];
+        $total_prisoners_region_wise = [];
+        $total_prisoners_crime_wise = [];
+
+        $total_prisoners_region_wise['Not Set'] = 0;
+        foreach (Prisoner::prisoner_status() as $key) {
+            $total_prisoners[$key] = 0;
+        }
+        foreach (Prisoner::regions() as $key => $value) {
+            $total_prisoners_region_wise[$key] = 0;
+        }
+
+        foreach (Prisoner::crime_charges() as $key => $value) {
+            $total_prisoners_crime_wise[$key] = 0;
+        }
+
+        $query_total_prisoners = DB::table('prisoners')->select('status', DB::raw("count(*) as total"))->groupBy('status')->get();
+
+        $query_total_prisoners_region_wise = DB::table('prisoners')->select('region', DB::raw("COUNT(*) as total"))->groupBy('region')->get();
+
+        $query_total_prisoners_crime_wise = DB::table('prisoners')->select('prisoner_charges.crime_charges', DB::raw("COUNT('prisoner_charges.crime_charges') as total"))->join('prisoner_charges','prisoners.id','=','prisoner_charges.prisoner_id')->where('prisoners.status','!=','Released')->groupBy('prisoner_charges.crime_charges')->get();
+
+        foreach ($query_total_prisoners as $item) {
+            $total_prisoners[$item->status] = $item->total;
+        }
+
+        foreach ($query_total_prisoners_region_wise as $item) {
+            if ($item->region == null) {
+                $total_prisoners_region_wise['Not Set'] = $item->total;
+            } else {
+                $total_prisoners_region_wise[$item->region] = $item->total;
+            }
+        }
+
+        foreach ($query_total_prisoners_crime_wise as $item) {
+            $total_prisoners_crime_wise[$item->crime_charges] = $item->total;
+        }
+
+//        dd($query_total_prisoners_crime_wise);
+        return view('dashboard', compact('total_prisoners','total_prisoners_region_wise','total_prisoners_crime_wise'));
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -24,9 +72,13 @@ class PrisonerController extends Controller
             ->allowedFilters([
                 AllowedFilter::scope('search_string'),
                 AllowedFilter::exact('cnic'),
+                AllowedFilter::exact('status'),
+                AllowedFilter::exact('status'),
+                AllowedFilter::exact('region'),
+                AllowedFilter::exact('prison'),
                 AllowedFilter::exact('passport_no'),
                 AllowedFilter::exact('iqama_no')
-            ])->paginate(50)->withQueryString();
+            ])->latest()->paginate(50)->withQueryString();
         return view('prisoner.index', compact('prisoner'));
     }
 
@@ -49,20 +101,49 @@ class PrisonerController extends Controller
     public function store(StorePrisonerRequest $request)
     {
 
-//        dd($request->all());
-        if ($request->hasFile('file_attachments_1')) {
-            $path = $request->file('file_attachments_1')->store('', 'public');
-            $request->merge(['attachment' => $path]);
+
+        if ($request->hasFile('photo_1')) {
+            $path = $request->file('photo_1')->store('', 'public');
+            $request->merge(['photo' => $path]);
         }
+
+        if ($request->hasFile('passport_1')) {
+            $path = $request->file('passport_1')->store('', 'public');
+            $request->merge(['passport' => $path]);
+        }
+
+
+        if ($request->hasFile('iqama_1')) {
+            $path = $request->file('iqama_1')->store('', 'public');
+            $request->merge(['iqama' => $path]);
+        }
+
+
+        if ($request->hasFile('other_1')) {
+            $path = $request->file('other_1')->store('', 'public');
+            $request->merge(['other' => $path]);
+        }
+
 
         if ($request->input('case_closing_date_hijri')) {
             if (strlen($request->case_closing_date_hijri) >= 10) {
-                $url = "http://api.aladhan.com/v1/hToG?date" . Carbon::parse($request->case_closing_date_hijri)->format('d-m-Y');
+                $url = "http://api.aladhan.com/v1/hToG?date=" . Carbon::parse($request->case_closing_date_hijri)->format('d-m-Y');
                 $response = Http::get($url);
                 $json_format = $response->json();
                 $gg_date = $json_format['data']['gregorian']['date'];
                 $date_in_gg = Carbon::createFromFormat('d-m-Y', $gg_date);
                 $request->merge(['case_closing_date_gg' => $date_in_gg->format('Y-m-d')]);
+            }
+        }
+
+        if ($request->input('hijri_detention_date')) {
+            if (strlen($request->hijri_detention_date) >= 10) {
+                $url = "http://api.aladhan.com/v1/hToG?date=" . Carbon::parse($request->hijri_detention_date)->format('d-m-Y');
+                $response = Http::get($url);
+                $json_format = $response->json();
+                $gg_date = $json_format['data']['gregorian']['date'];
+                $date_in_gg = Carbon::createFromFormat('d-m-Y', $gg_date);
+                $request->merge(['gregorian_detention_date' => $date_in_gg->format('Y-m-d')]);
             }
         }
 
@@ -112,6 +193,7 @@ class PrisonerController extends Controller
             'etd_issuance_date' => $request->etd_issuance_date,
             'etd_number' => $request->etd_number,
             'case_closed' => $request->case_closed,
+            'case_closing_reason' => $request->case_closing_reason,
             'case_closing_date_hijri' => $request->case_closing_date_hijri,
             'date_of_birth' => $request->date_of_birth,
             'provinces' => $request->provinces,
@@ -121,7 +203,10 @@ class PrisonerController extends Controller
             'contact_no_in_pakistan' => $request->contact_no_in_pakistan,
             'case_closing_date_gg' => $request->case_closing_date_gg,
             'expected_release_date' => $request->expected_release_date,
-            'attachment' => $request->attachment,
+            'photo' => $request->photo,
+            'passport' => $request->passport,
+            'iqama' => $request->iqama,
+            'other' => $request->other,
             'status' => $request->status,
         ]);
 
@@ -169,9 +254,27 @@ class PrisonerController extends Controller
      */
     public function update(UpdatePrisonerRequest $request, Prisoner $prisoner)
     {
-        if ($request->hasFile('file_attachments_1')) {
-            $path = $request->file('file_attachments_1')->store('', 'public');
-            $request->merge(['attachment' => $path]);
+
+        if ($request->hasFile('photo_1')) {
+            $path = $request->file('photo_1')->store('', 'public');
+            $request->merge(['photo' => $path]);
+        }
+
+        if ($request->hasFile('passport_1')) {
+            $path = $request->file('passport_1')->store('', 'public');
+            $request->merge(['passport' => $path]);
+        }
+
+
+        if ($request->hasFile('iqama_1')) {
+            $path = $request->file('iqama_1')->store('', 'public');
+            $request->merge(['iqama' => $path]);
+        }
+
+
+        if ($request->hasFile('other_1')) {
+            $path = $request->file('other_1')->store('', 'public');
+            $request->merge(['other' => $path]);
         }
 
         if ($request->input('case_closing_date_hijri')) {
@@ -242,6 +345,7 @@ class PrisonerController extends Controller
             'etd_issuance_date' => $request->etd_issuance_date,
             'etd_number' => $request->etd_number,
             'case_closed' => $request->case_closed,
+            'case_closing_reason' => $request->case_closing_reason,
             'case_closing_date_hijri' => $request->case_closing_date_hijri,
             'date_of_birth' => $request->date_of_birth,
             'provinces' => $request->provinces,
@@ -251,7 +355,10 @@ class PrisonerController extends Controller
             'contact_no_in_pakistan' => $request->contact_no_in_pakistan,
             'case_closing_date_gg' => $request->case_closing_date_gg,
             'expected_release_date' => $request->expected_release_date,
-            'attachment' => $request->attachment,
+            'photo' => $request->photo,
+            'passport' => $request->passport,
+            'iqama' => $request->iqama,
+            'other' => $request->other,
             'status' => $request->status,
         ]);
 

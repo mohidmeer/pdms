@@ -7,8 +7,9 @@
 
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Prisoner Shifting Data
+            Jail Official Contact Data
         </h2>
+
 
     </x-slot>
 
@@ -26,28 +27,30 @@
                             @endforeach
                         @endif
 
-                        <form action="{{route('prisionerShifted.store')}}" class="mb-6" method="post" enctype="multipart/form-data">
+                        <form action="{{route('prison.store')}}" class="mb-6" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="bg-white rounded px-8 pt-6 pb-8 ">
-                                <div class="-mx-3 md:flex mb-1">
+
+                                <div class="-mx-3 md:flex mb-3">
 
                                     <div class="md:w-1/2 px-3">
-                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="detention_authority">
-                                            Detention authority
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="prison">
+                                            Prison
                                         </label>
-                                        <select name="detention_authority" id="detention_authority" class="select2 appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3">
+                                        <select name="prison" id="prison" class="select2 appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3">
                                             <option value="" selected="">Please Select</option>
-                                            @foreach(\App\Models\Prisoner::detention_authority() as $item => $value)
+                                            @foreach(\App\Models\Prisoner::prisons() as $item => $value)
                                                 <option value="{{$item}}">{{$item}} - {{$value}}</option>
                                             @endforeach
                                         </select>
                                     </div>
 
+
                                     <div class="md:w-1/2 px-3">
-                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="detention_city">
-                                            Detention city
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="city">
+                                            City
                                         </label>
-                                        <select name="detention_city" id="detention_city" class="select2 appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3">
+                                        <select name="city" id="city" class="select2 appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3">
                                             <option value="" selected="">Please Select</option>
                                             @foreach(\App\Models\Prisoner::detention_city() as $item => $value)
                                                 <option value="{{$item}}">{{$item}} - {{$value}}</option>
@@ -55,45 +58,67 @@
                                         </select>
                                     </div>
 
+
                                     <div class="md:w-1/2 px-3">
-                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="shifted_to_other_department">
-                                            shifted to other department
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="region">
+                                            Region
                                         </label>
-                                        <input type="hidden" name="prisoner_id" value="{{$prisoner->id}}">
-                                        <select name="shifted_to_other_department" id="shifted_to_other_department" class="select2 appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3">
+                                        <select name="region" id="region" class="select2 appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3">
                                             <option value="" selected="">Please Select</option>
-                                            @foreach(\App\Models\Prisoner::prisons() as $key => $value)
-                                                <option value="{{$key}}">{{$key}} - {{$value}}</option>
+                                            @foreach(\App\Models\Prisoner::regions() as $item => $value)
+                                                <option value="{{$item}}">{{$item}} - {{$value}}</option>
                                             @endforeach
                                         </select>
                                     </div>
 
+
+
                                     <div class="md:w-1/2 px-3">
-                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="shifting_date_hijri">
-                                            Shifting Date (Hijri Date)
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="distance_km">
+                                            Distance (KM)
                                         </label>
-                                        <input name="shifting_date_hijri" placeholder="dd-mm-YYYY" min="10" required class="hdate appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3"
-                                               id="shifting_date_hijri" type="text">
+                                        <select name="distance_km" id="distance_km" class="select2 appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3">
+                                            <option value="" selected="">Please Select</option>
+                                            @for($i = 1; $i <= 2000; $i++)
+                                                <option value="{{$i}}">{{$i}} KM</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+
+
+
+                                </div>
+                                <div class="-mx-3 md:flex mb-3">
+
+
+
+                                    <div class="md:w-1/2 px-3">
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="name_of_official">
+                                            Name of Official
+                                        </label>
+                                        <input name="name_of_official" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="name_of_official" type="text">
+                                    </div>
+                                    <div class="md:w-1/2 px-3">
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="department_designation">
+                                            Department / Designation
+                                        </label>
+                                        <input name="department_designation" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="department_designation" type="text">
+                                    </div>
+
+                                    <div class="md:w-1/2 px-3">
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="contact_no">
+                                            Contact number
+                                        </label>
+                                        <input name="contact_no" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="contact_no" type="text">
                                     </div>
 
                                 </div>
-
-                                <div class="-mx-3 md:flex mb-1">
-
-                                    <div class="md:w-1/2 px-3">
-                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="shifting_date_hijri">
-                                            Other Details
-                                        </label>
-                                        <textarea name="other_details" id="other_details" class="w-full uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" ></textarea>
-                                    </div>
-                                </div>
-
 
                                 <div style="float: right" class="mt--1">
                                     <button class="bg-blue-500 hover:bg-blue-400
                                     text-white font-bold py-2 px-4 border-b-4
                                     border-blue-700 hover:border-blue-500 rounded">
-                                        <span>Submit</span>
+                                        <span>Save</span>
                                     </button>
                                 </div>
                             </div>
@@ -115,7 +140,6 @@
                 $('.select2').select2();
                 $('.cnic_mask').mask('00000-0000000-0');
                 $('.number_mask').mask('0000-0000000');
-                $('.phone_mask').mask('00000-000000');
                 $('.hdate').mask('00-00-0000');
             });
 

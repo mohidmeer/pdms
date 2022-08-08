@@ -35,9 +35,9 @@
                             <div class="image overflow-hidden">
 
 
-                                @if(!empty($prisoner->attachment))
+                                @if(!empty($prisoner->photo))
                                     <img class="h-auto w-full mx-auto"
-                                         src="{{url(Storage::url($prisoner->attachment))}}"/>
+                                         src="{{url(Storage::url($prisoner->photo))}}"/>
 
                                 @else
                                     <img class="h-auto w-full mx-auto"
@@ -138,11 +138,26 @@
 
                                     <div class="grid grid-cols-2">
                                         <div class="px-4 py-2 font-semibold">Iqama Number</div>
-                                        <div class="px-4 py-2">{{$prisoner->iqama_no}}</div>
+                                        <div class="px-4 py-2">{{$prisoner->iqama_no}}
+<br>
+                                            @if(!empty($prisoner->iqama))
+                                                <a href="{{Storage::url($prisoner->iqama)}}" target="_blank" class="text-blue-700 hover:underline">View Iqama</a>
+                                            @endif
+                                            <br>
+                                            @if(!empty($prisoner->other))
+                                                <a href="{{Storage::url($prisoner->other)}}" target="_blank" class="text-blue-700 hover:underline">Other Attachment</a>
+                                            @endif
+                                        </div>
                                     </div>
                                     <div class="grid grid-cols-2">
                                         <div class="px-4 py-2 font-semibold">Passport number</div>
-                                        <div class="px-4 py-2">{{$prisoner->passport_no}}</div>
+                                        <div class="px-4 py-2">{{$prisoner->passport_no}}
+
+                                        <br>
+                                            @if(!empty($prisoner->passport))
+                                                <a href="{{Storage::url($prisoner->passport)}}" target="_blank" class="text-blue-700 hover:underline">View Passport</a>
+                                            @endif
+                                        </div>
                                     </div>
 
 
@@ -229,6 +244,11 @@
                                         <div class="px-4 py-2 font-semibold">Penalty / Fine</div>
                                         <div class="px-4 py-2">{{$prisoner->penalty_fine}}</div>
                                     </div>
+
+
+
+
+
                                 </div>
 
                                 <hr>
@@ -335,9 +355,13 @@
                                         @if($prisoner->prisoner_shifting->isNotEmpty())
                                             @foreach($prisoner->prisoner_shifting as $ps)
                                                 <li>
-                                                    <div class="text-teal-600">Shifted To Other Department: {{$ps->shifted_to_other_department}}</div>
-                                                    <div class="text-gray-500 text-xs">Shifting Date Gregorian: {{\Carbon\Carbon::parse($ps->shifting_date_gregorian)->format('d-m-Y')}}</div>
+                                                    <div class="">{{ucwords(strtolower('DETENTION AUTHORITY'))}}: {{$ps->shifted_to_other_department}}</div>
+                                                    <div class="">{{ucwords(strtolower('DETENTION CITY'))}}: {{$ps->shifted_to_other_department}}</div>
+                                                    <div class="">Shifted To Other Department: {{$ps->shifted_to_other_department}}</div>
+                                                    <div class="text-gray-500">Shifting Date Gregorian: {{\Carbon\Carbon::parse($ps->shifting_date_gregorian)->format('d-m-Y')}}</div>
+                                                    <div class="text-gray-500">Shifting Date Hijri: {{$ps->shifting_date_hijri}}</div>
                                                 </li>
+                                                <hr>
                                             @endforeach
                                         @endif
 

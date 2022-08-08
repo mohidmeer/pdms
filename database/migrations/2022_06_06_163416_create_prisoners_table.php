@@ -44,6 +44,7 @@ return new class extends Migration
             $table->date('etd_issuance_date')->nullable();
             $table->string('etd_number')->nullable();
             $table->string('case_closed')->nullable();
+            $table->string('case_closing_reason')->nullable();
             $table->string('case_closing_date_hijri')->nullable();
             $table->date('case_closing_date_gg')->nullable();
             $table->date('date_of_birth')->nullable();
@@ -54,6 +55,11 @@ return new class extends Migration
             $table->string('contact_no_in_pakistan')->nullable();
             $table->date('detention_period')->nullable();
             $table->date('expected_release_date')->nullable();
+            $table->enum('status',['Detainee','Undertrial','Sentenced','Death Sentenced','Released'])->nullable();
+            $table->string('photo')->nullable();
+            $table->string('passport')->nullable();
+            $table->string('iqama')->nullable();
+            $table->string('other')->nullable();
             $table->string('attachment')->nullable();
             $table->timestamps();
         });

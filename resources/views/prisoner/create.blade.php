@@ -119,10 +119,20 @@
                                 </div>
 
                                 <br>
-                                <livewire:date-converter/>
 
-                                <div class="-mx-3 md:flex mb-1">
-                                    <div class="w-full px-3" style="width: 100%;">
+
+
+                                <div class="-mx-3 md:flex mb-3">
+
+                                    <div class="md:w-1/2 px-3">
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-hijri_detention_date">
+                                            hijri detention date
+                                        </label>
+                                        <input name="hijri_detention_date" class="hdate appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
+                                               id="grid-hijri_detention_date" type="text" placeholder="dd-mm-yyyy" >
+                                    </div>
+
+                                    <div class="md:w-1/2 px-3" style="width: 50%;">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="crime_charges">
                                             charges crime
                                         </label>
@@ -132,9 +142,12 @@
                                             @endforeach
                                         </select>
                                     </div>
+
                                 </div>
 
-                                <br>
+
+{{--                                <livewire:date-converter/>--}}
+
 
                                 <div class="-mx-3 md:flex mb-1">
                                     <div class="w-full px-3" row="8">
@@ -157,30 +170,17 @@
                                             Prisoner Status
                                         </label>
                                         <select name="status" id="status" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3">
-                                            <option value="Detainee" selected>
-                                                Detainee
-                                            </option>
-                                            <option value="Undertrial">
-                                                Undertrial
-                                            </option>
-                                            <option value="Sentenced">
-                                                Sentenced
-                                            </option>
+
+                                            @foreach(\App\Models\Prisoner::prisoner_status() as $item)
+                                                <option value="{{$item}}"  @if($item == 'Detainee') selected  @endif>
+                                                    {{$item}}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
 
 
 
-
-                                    <div class="md:w-1/2 px-3">
-                                        <div style="float: right" class="mt--1">
-                                            <button class="bg-blue-500 hover:bg-blue-400
-                                    text-white font-bold py-2 px-4 border-b-4
-                                    border-blue-700 hover:border-blue-500 rounded">
-                                                <span>Submit</span>
-                                            </button>
-                                        </div>
-                                    </div>
 
 
 
@@ -248,8 +248,22 @@
                                         <input name="penalty_fine" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-penalty_fine" type="number">
                                     </div>
 
-                                    ``
                                 </div>
+
+
+
+
+                                <div class="md:w-full px-3">
+                                    <div style="float: right" class="mt--1">
+                                        <button class="bg-blue-500 hover:bg-blue-400
+                                    text-white font-bold py-2 px-4 border-b-4
+                                    border-blue-700 hover:border-blue-500 rounded">
+                                            <span>Submit</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <br><br>
 
                                 <br>
                                 <hr>
@@ -341,8 +355,14 @@
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="etd_number">
                                             ETD number
                                         </label>
-                                        <input name="etd_number" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="etd_number" type="date">
+                                        <input name="etd_number" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="etd_number" type="text">
                                     </div>
+
+                                </div>
+
+
+                                <div class="-mx-3 md:flex mb-3">
+
                                     <div class="md:w-1/2 px-3">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="case_closed">
                                             Case closed
@@ -353,6 +373,22 @@
                                             <option value="No" selected>No</option>
                                         </select>
                                     </div>
+
+
+                                    <div class="md:w-1/2 px-3">
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="case_closing_reason">
+                                            Case Closing Reason
+                                        </label>
+                                        <select name="case_closing_reason" id="case_closing_reason" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3">
+                                            <option value="">Please Select</option>
+                                            <option value="None" selected>None</option>
+                                            <option value="Deported">Deported</option>
+                                            <option value="Released">Released</option>
+                                            <option value="Executed">Executed</option>
+                                            <option value="Unknown">Unknown</option>
+                                        </select>
+                                    </div>
+
                                     <div class="md:w-1/2 px-3">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="case_closing_date_hijri">
                                             Closing date (Hijri Date)
@@ -369,6 +405,30 @@
                                 <br>
 
                                 <div class="-mx-3 md:flex mb-3">
+
+                                        <div class="md:w-1/2 px-3">
+                                            <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="gender">
+                                                gender
+                                            </label>
+                                            <select name="gender" id="gender" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" required="">
+                                                <option value="" selected="">Please Select</option>
+                                                <option value="Male" selected >
+                                                    Male
+                                                </option>
+                                                <option value="Female" >
+                                                    Female
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        <div class="md:w-1/2 px-3">
+                                            <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-cnic">
+                                                CNIC/NICOB
+                                            </label>
+                                            <input name="cnic"   placeholder="XXXXX-XXXXXXX-X" maxlength="15" class="cnic_mask appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-cnic" type="text">
+                                        </div>
+
+
                                     <div class="md:w-1/2 px-3">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="date_of_birth">
                                             Date of birth
@@ -387,6 +447,12 @@
                                         </select>
                                     </div>
 
+
+
+
+                                </div>
+
+                                <div class="-mx-3 md:flex mb-3">
 
                                     <div class="md:w-1/2 px-3">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="district">
@@ -409,10 +475,6 @@
                                     </div>
 
 
-                                </div>
-
-                                <div class="-mx-3 md:flex mb-3">
-
                                     <div class="md:w-1/2 px-3">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="muhallah_town">
                                             Muhallah / Town
@@ -433,16 +495,41 @@
 
 
                                 <div class="-mx-3 md:flex mb-3">
-                                    <div class="md:w-1/2 px-3">
-                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="file_attachments_1">
-                                            Attachments (Scanned PDF, JPG)
+                                    <div class="md:w-1/4 px-3">
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="photo_1">
+                                            Photo
                                         </label>
-                                        @if(!empty($prisoner->attachment))
-                                            <a href="{{Storage::url($prisoner->attachment)}}" target="_blank" class="text-blue-700 hover:underline">View Existing Attachment</a>
+                                        @if(!empty($prisoner->photo))
+                                            <a href="{{Storage::url($prisoner->photo)}}" target="_blank" class="text-blue-700 hover:underline">View Existing Attachment</a>
                                         @endif
-                                        <input name="file_attachments_1" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="file_attachments_1" type="file">
-
-
+                                        <input name="photo_1" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="photo_1" type="file">
+                                    </div>
+                                    <div class="md:w-1/4 px-3">
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="passport_1">
+                                            Passport
+                                        </label>
+                                        @if(!empty($prisoner->passport))
+                                            <a href="{{Storage::url($prisoner->passport)}}" target="_blank" class="text-blue-700 hover:underline">View Existing Attachment</a>
+                                        @endif
+                                        <input name="passport_1" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="passport_1" type="file">
+                                    </div>
+                                    <div class="md:w-1/4 px-3">
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="iqama_1">
+                                            Iqama
+                                        </label>
+                                        @if(!empty($prisoner->iqama))
+                                            <a href="{{Storage::url($prisoner->iqama)}}" target="_blank" class="text-blue-700 hover:underline">View Existing Attachment</a>
+                                        @endif
+                                        <input name="iqama_1" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="iqama_1" type="file">
+                                    </div>
+                                    <div class="md:w-1/4 px-3">
+                                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="other_1">
+                                            Other
+                                        </label>
+                                        @if(!empty($prisoner->other))
+                                            <a href="{{Storage::url($prisoner->other)}}" target="_blank" class="text-blue-700 hover:underline">View Existing Attachment</a>
+                                        @endif
+                                        <input name="other_1" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="other_1" type="file">
                                     </div>
                                 </div>
                                 <div style="float: right" class="mt--1">

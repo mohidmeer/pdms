@@ -67,7 +67,12 @@ class Prisoner extends Model
         'expected_release_date',
         'case_closing_date_gg',
         'case_closed',
+        'case_closing_reason',
         'attachment',
+        'photo',
+        'passport',
+        'iqama',
+        'other',
         'status',
     ];
 
@@ -249,9 +254,13 @@ class Prisoner extends Model
     public static function prisoner_status(): array
     {
         return [
-            'Under Trial',
             'Detainee',
-            'Sentence',
+            'Undertrial',
+            'Sentenced',
+            'Death Sentenced',
+            'Released',
+            'Shifted',
+            'Executed',
         ];
     }
 
@@ -274,6 +283,7 @@ class Prisoner extends Model
             'Murder' => 'قتل',
             'Wine' => 'شرب/ ترويج الخمور',
             'Smuggling' => 'تهريب',
+            'Security case' => 'قضية أمنية',
             'Traffic Accident' => 'حادث مروري',
         ];
     }

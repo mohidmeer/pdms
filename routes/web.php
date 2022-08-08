@@ -19,13 +19,12 @@ Route::get('/', function () {
 
 Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])->group(function () {
 
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-
+    Route::get('dashboard',[\App\Http\Controllers\PrisonerController::class,'dashboard'])->name('dashboard');
     Route::resource('prisoner',\App\Http\Controllers\PrisonerController::class);
+    Route::resource('prison',\App\Http\Controllers\JailOfficialController::class);
     Route::get('prisoner/{prisoner}/prisionerShifted/create',[\App\Http\Controllers\PrisionerShiftedController::class,'create'])->name('prisionerShifted.create');
     Route::post('prisionerShifted',[\App\Http\Controllers\PrisionerShiftedController::class,'store'])->name('prisionerShifted.store');
     Route::resource('prisonerCharges',\App\Http\Controllers\PrisonerChargesController::class);
+    Route::get('report/statistics',[\App\Http\Controllers\ReportController::class,'index'])->name('report.statistics');
 
 });
