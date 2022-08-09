@@ -25,6 +25,10 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])-
     Route::get('prisoner/{prisoner}/prisionerShifted/create',[\App\Http\Controllers\PrisionerShiftedController::class,'create'])->name('prisionerShifted.create');
     Route::post('prisionerShifted',[\App\Http\Controllers\PrisionerShiftedController::class,'store'])->name('prisionerShifted.store');
     Route::resource('prisonerCharges',\App\Http\Controllers\PrisonerChargesController::class);
+    Route::get('report',[\App\Http\Controllers\ReportController::class,'reportMain'])->name('report.reportMain');
     Route::get('report/statistics',[\App\Http\Controllers\ReportController::class,'index'])->name('report.statistics');
+    Route::get('report/crime-wise',[\App\Http\Controllers\ReportController::class,'crimeWise'])->name('report.crime-wise');
+    Route::get('report/prison-wise',[\App\Http\Controllers\ReportController::class,'prisonWise'])->name('report.prison-wise');
+    Route::get('report/region-wise',[\App\Http\Controllers\ReportController::class,'regionWise'])->name('report.region-wise');
 
 });

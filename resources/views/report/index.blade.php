@@ -89,13 +89,13 @@
                 <table class="w-full text-sm border-collapse border border-slate-400 text-left text-black dark:text-gray-400">
                     <thead class="text-xs text-black uppercase bg-gray-50 dark:bg-gray-700 ">
                     <tr>
-                        <th scope="col" colspan="22" class="px-1 py-3 border border-black text-center">
+                        <th scope="col" colspan="23" class="px-1 py-3 border border-black text-center">
                             Statistics of Pakistani prisoners in Saudi jails under consuler jurisdiction of Emassy of
                             Pakistan Riyadh
                         </th>
                     </tr>
                     <tr>
-                        <th scope="col" colspan="22" class="px-1 py-3 border border-black text-center">
+                        <th scope="col" colspan="23" class="px-1 py-3 border border-black text-center">
                             Crime Wise
                         </th>
                     </tr>

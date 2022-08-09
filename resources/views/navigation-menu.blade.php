@@ -26,8 +26,8 @@
                         {{ __('Prisons') }}
                     </x-jet-nav-link>
 
-                    <x-jet-nav-link href="{{ route('prison.index') }}" :active="request()->routeIs('prison.*')">
-                        {{ __('Jail Visits') }}
+                    <x-jet-nav-link href="{{ route('report.reportMain') }}" :active="request()->routeIs('report.*')">
+                        {{ __('Reports') }}
                     </x-jet-nav-link>
                 </div>
             </div>
@@ -163,9 +163,8 @@
                 {{ __('Prisons') }}
             </x-jet-responsive-nav-link>
 
-
-            <x-jet-responsive-nav-link href="{{ route('prison.index') }}" :active="request()->routeIs('prison.*')">
-                {{ __('Jail Visits') }}
+            <x-jet-responsive-nav-link href="{{ route('report.reportMain') }}" :active="request()->routeIs('report.*')">
+                {{ __('Reports') }}
             </x-jet-responsive-nav-link>
         </div>
 

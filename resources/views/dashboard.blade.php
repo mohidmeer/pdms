@@ -16,7 +16,7 @@
                     <div class="p-5">
                         <div class="grid grid-cols-3 gap-1">
                             <div class="col-span-2">
-                                <div class="text-3xl font-bold leading-8">{{\App\Models\Prisoner::where('status','Sentenced')->count()}}</div>
+                                <div class="text-3xl font-bold leading-8">{{$prisoners_arrested_in_last_3_months}}</div>
 
                                 <div class="mt-1 text-base  font-bold text-gray-600">
                                     Prisoners arrested in last 3 months
@@ -34,7 +34,7 @@
                         <div class="grid grid-cols-3 gap-1">
                             <div class="col-span-2">
                                 <div class="text-3xl font-bold leading-8">
-                                    {{\App\Models\Prisoner::where('status','Undertrial')->count()}}
+                                    {{$prisoners_released_in_last_3_months}}
                                 </div>
                                 <div class="mt-1 text-base  font-bold text-gray-600">Released in last 3 months</div>
                             </div>
@@ -65,7 +65,7 @@
                         <div class="grid grid-cols-3 gap-1">
                             <div class="col-span-2">
                                 <div class="text-3xl font-bold leading-8">
-                                    {{\App\Models\Prisoner::where('status','Death Sentenced')->count()}}
+                                    {{$prisoners_to_be_released_in_3_months}}
                                 </div>
                                 <div class="mt-1 text-base font-bold text-gray-600">To be released in next 3 months</div>
                             </div>
@@ -373,7 +373,7 @@
             service_length_chart.render();
 
             var retirment_in_options = {
-                series: [1,2,2,2,2,],
+                series: [@foreach($delay_after_completion as $key => $value) {{$value}}, @endforeach],
                 dataLabels: {
                     formatter: function (val, opts) {
                         return opts.w.config.series[opts.seriesIndex]
@@ -435,7 +435,7 @@
                 markers: {
                     colors: ['#F44336', '#E91E63', '#9C27B0']
                 },
-                labels: ['1 year','2 Years','3 Years','4 Years','5 Years',],
+                labels: [@foreach($delay_after_completion as $key => $value) '{{$key}}', @endforeach],
                 legend: {
                     position: 'right',
 
@@ -477,7 +477,7 @@
 
 
             var scale_options = {
-                series: [3,2,],
+                series: [@foreach($total_prisoners_security_case as $key => $value) {{$value}}, @endforeach],
                 dataLabels: {
                     formatter: function (val, opts) {
                         return opts.w.config.series[opts.seriesIndex]
@@ -524,12 +524,12 @@
                 theme: {
                     palette: 'palette3' // upto palette10
                 },
-                labels: ['Gazetted','Non-Gazetted',],
+                labels: [@foreach($total_prisoners_security_case as $key => $value) '{{$key}}', @endforeach],
                 legend: {
                     position: 'bottom',
                 },
                 title: {
-                    text: 'Security cases prisoners',
+                    text: 'Security Cases',
                     align: 'left',
                     margin: 0,
                     offsetX: 0,
@@ -558,7 +558,7 @@
             scale_chart.render();
 
             var salary_options = {
-                series: [0,1,0,0,],
+                series: [@foreach($financial_claim_data as $key => $value) {{$value}}, @endforeach],
                 dataLabels: {
                     formatter: function (val, opts) {
                         return opts.w.config.series[opts.seriesIndex]
@@ -613,7 +613,7 @@
                 markers: {
                     colors: ['#F44336', '#E91E63', '#9C27B0']
                 },
-                labels: ['&lt; 25k','25K - 50K','50k - 100k','100k &gt;',],
+                labels: [@foreach($financial_claim_data as $key => $value) '{{$key}}', @endforeach],
                 legend: {
                     position: 'bottom',
                 },
