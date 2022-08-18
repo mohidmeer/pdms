@@ -49,7 +49,11 @@
                         <div class="grid grid-cols-3 gap-1">
                             <div class="col-span-2">
                                 <div class="text-3xl font-bold leading-8">
-                                    {{\App\Models\Prisoner::where('status','Detainee')->count()}}
+                                    @if(!empty($legal_assistance->total))
+                                        {{$legal_assistance->total}}
+                                    @else
+                                        0
+                                    @endif
                                 </div>
                                 <div class="mt-1 text-base  font-bold text-gray-600">Legal assistance provided in last 3 months</div>
                             </div>

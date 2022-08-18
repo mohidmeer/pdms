@@ -44,14 +44,12 @@
                                         </label>
                                         <input name="arabic_name" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-arabic_name" type="text">
                                     </div>
-
                                     <div class="md:w-1/2 px-3">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-iqama_no">
                                             iqama no
                                         </label>
                                         <input name="iqama_no" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-iqama_no" type="text">
                                     </div>
-
                                     <div class="md:w-1/2 px-3">
                                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-passport_no">
                                             passport no
@@ -59,7 +57,6 @@
                                         <input name="passport_no" placeholder="AB123456789" class=" appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
                                                id="grid-passport_no" type="text">
                                     </div>
-
                                 </div>
 
 

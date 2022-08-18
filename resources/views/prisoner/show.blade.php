@@ -11,6 +11,18 @@
         </h2>
 
         <div class="flex justify-center items-center float-right">
+
+            <a href="{{route('prisoner.assistance', $prisoner->id)}}"
+               class="flex items-center px-4 py-2 text-gray-600 bg-white border rounded-lg focus:outline-none hover:bg-gray-100 transition-colors duration-200 transform dark:text-gray-200 dark:border-gray-200  dark:hover:bg-gray-700 ml-2"
+               title="Members List">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                </svg>
+                <span class="hidden md:inline-block ml-2">
+                    Add Legal Assistance
+                </span>
+            </a>
+
             <a href="{{route('prisionerShifted.create', $prisoner->id)}}"
                class="flex items-center px-4 py-2 text-gray-600 bg-white border rounded-lg focus:outline-none hover:bg-gray-100 transition-colors duration-200 transform dark:text-gray-200 dark:border-gray-200  dark:hover:bg-gray-700 ml-2"
                title="Members List">
@@ -25,7 +37,7 @@
     </x-slot>
 
     <div class="py-2">
-        <div class="bg-gray-100">
+        <div class="bg-gray-100" style="height: 1800px;" >
             <div class="container mx-auto my-5 p-5">
                 <div class="md:flex no-wrap md:-mx-2 ">
                     <!-- Left Side -->
@@ -368,7 +380,46 @@
                                     </ul>
                                 </div>
                             </div>
+                            <div class="my-4"></div>
+                            <div class="grid grid-cols-2">
+                                <div>
+                                    <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-3">
+                                <span clas="text-green-500">
+                                    <svg class="h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                    </svg>
+                                </span>
+                                        <span class="tracking-wide">Prisoner Assistance</span>
+                                    </div>
+                                    <ul class="list-inside space-y-2">
+                                        @if($prisoner->assistance->isNotEmpty())
+                                            @foreach($prisoner->assistance as $ps)
+                                                <li>
+                                                    <div class="">{{ucwords(strtolower('Date'))}}: {{\Carbon\Carbon::parse($ps->date)->format('d-m-Y')}}</div>
+                                                    <div class="">{{ucwords(strtolower('Type'))}}: {{$ps->type}}</div>
+                                                    <div class="">Description: {{$ps->description}}</div>
+                                                    <div class="text-gray-500">Attachment:
+                                                        @if(!empty($ps->attachment))
+                                                            <a href="{{Storage::url($ps->attachment)}}" class="text-blue-500 hover:underline"> Attachment</a>
+                                                        @else
+                                                            N/A
+                                                        @endif
+
+                                                    </div>
+                                                </li>
+                                                <hr>
+                                            @endforeach
+                                        @endif
+
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
+
+
+
                         <!-- End of Experience and education grid -->
                     </div>
                     <!-- End of profile tab -->

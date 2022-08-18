@@ -347,6 +347,11 @@ class Prisoner extends Model
         return $this->hasMany(PrisionerShifted::class);
     }
 
+    public function assistance(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Assistance::class);
+    }
+
     public static function courts(): array
     {
         return [

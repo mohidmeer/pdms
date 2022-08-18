@@ -136,8 +136,13 @@ class PrisonerController extends Controller
         ];
 
 
+        $legal_assistance = DB::table('assistances')
+            ->select(DB::raw("COUNT(prisoner_id) as total"))
+            ->where('type','=','Legal Assistance')
+            ->whereBetween('created_at', [$dateS->format('Y-m-d'), $dateE->format('Y-m-d')])
+            ->groupBy('prisoner_id')
+            ->first();
 
-//        dd($delay_after_completion_n_year);
         return view('dashboard', compact([
             'total_prisoners',
             'total_prisoners_region_wise',
@@ -147,7 +152,8 @@ class PrisonerController extends Controller
             'prisoners_released_in_last_3_months',
             'prisoners_to_be_released_in_3_months',
             'financial_claim_data',
-            'delay_after_completion'
+            'delay_after_completion',
+            'legal_assistance'
         ]));
     }
 
